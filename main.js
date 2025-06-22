@@ -2,8 +2,40 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
-// Your JavaScript code goes here!
+// Select all like heart elements
+const hearts = document.querySelectorAll('.like-glyph');
 
+// Select modal and its message area
+const modal = document.getElementById('modal');
+const modalMessage = document.getElementById('modal-message');
+
+// Add click listeners to each heart
+hearts.forEach(heart => {
+  heart.addEventListener('click', () => {
+    // Simulate server call
+    mimicServerCall()
+      .then(() => {
+        // On success
+        if (heart.textContent === EMPTY_HEART) {
+          heart.textContent = FULL_HEART;
+          heart.classList.add('activated-heart');
+        } else {
+          heart.textContent = EMPTY_HEART;
+          heart.classList.remove('activated-heart');
+        }
+      })
+      .catch(error => {
+        // On failure
+        modal.classList.remove('hidden');
+        modalMessage.textContent = error;
+
+        // Hide modal after 3 seconds
+        setTimeout(() => {
+          modal.classList.add('hidden');
+        }, 3000);
+      });
+  });
+});
 
 
 
